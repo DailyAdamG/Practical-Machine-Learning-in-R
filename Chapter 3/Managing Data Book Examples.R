@@ -141,3 +141,102 @@ vehicles %>%
 vehicles %>%
   select(drive) %>%
   summary()
+
+#Recoding 2-Wheel and 4-Wheel Drive
+
+vehicles2 <- vehicles %>%
+  mutate(drive2 = recode(drive, "2-Wheel Drive" = "Front-Wheel Drive")) %>%
+  mutate(drive2 = recode(drive2, "4-Wheel Drive" = "All-Wheel Drive")) %>%
+  select(drive, drive2)
+
+#Preview new data set
+
+head(vehicles2)
+
+#Summarize the new data set
+
+summary(vehicles2)
+
+#Creating dummy variables for new data set
+
+vehicles2 <- data.frame(vehicles2)
+
+library(dummies)
+vehicles2 <- dummy.data.frame(data = vehicles2, names = "drive2", sep = "_")
+
+#Preview of data set
+
+head(vehicles2)
+
+#Simple random sampling without replacement
+
+set.seed(1234)
+sample(100, 20, replace = FALSE)
+
+#Simple random sampling with replacement
+
+set.seed(1234)
+sample(100, 20, replace = TRUE)
+
+#Create a training set from vehicles population
+
+set.seed(1234)
+
+sample_set <- sample(36979, 27734, replace = FALSE)
+
+#Create a training set from vehicles population without predetermined values
+
+set.seed(1234)
+
+sample_set <- sample(nrow(vehicles), nrow(vehicles) * .75, replace = FALSE)
+
+#Select the rows from the sample as the training set
+
+vehicles_train <- vehicles[sample_set,]
+
+#View the training data
+
+vehicles_train
+
+#Select the rows of data not represented in the training data
+
+vehicles_test <- vehicles[-sample_set, ]
+
+#View the testing data
+
+vehicles_test
+
+#Review the proportional distribution for drive
+
+vehicles %>%
+  select(drive) %>%
+  table() %>%
+  prop.table()
+
+#Simple random sampling of 1% of the data
+
+set.seed(1234)
+
+sample_set <- sample(nrow(vehicles), nrow(vehicles) * .01, replace = FALSE)
+vehicles_simple <- vehicles[sample_set,]
+vehicles_simple %>%
+  select(drive) %>%
+  table() %>%
+  prop.table()
+
+#Generate a stratified random sample of drive from the vehicles data set
+
+library(caTools)
+
+set.seed(1234)
+
+sample_set <- sample.split(vehicles$drive, SplitRatio = .01)
+
+vehicles_stratified <- subset(vehicles, sample_set == TRUE)
+
+#View the proportional distribution of stratefied sample
+
+vehicles_stratified %>%
+  select(drive) %>%
+  table() %>%
+  prop.table()

@@ -11,7 +11,7 @@ vehicles <- read_csv(file = "C:/Users/daily/Desktop/Repositories/Practical-Machi
 #Exercise 1
 
 #For all manual transmission vehicles in the vehicles data set, list the 
-#descriptive statistics for the drive, make, model, and class variables only
+#descriptive statistics for the drive, make, model, and class variables only.
 
 vehicles %>%
   filter(transmissiontype == "Manual") %>%

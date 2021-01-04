@@ -2,7 +2,7 @@
 
 setwd("C:/Users/daily/Desktop/Repositories/Practical-Machine-Learning-in-R/Chapter 4")
 
-#Loading necessary library and dataset
+#Loading necessary library and data set
 
 library(tidyverse)
 
